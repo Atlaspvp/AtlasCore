@@ -1,0 +1,4 @@
+name: AtlasCore
+version: '${project.version}'
+main: net.atlaspvp.atlascore.AtlasCore
+api-version: 1.20
