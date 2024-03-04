@@ -22,4 +22,8 @@ public final class AtlasCore extends JavaPlugin {
     public static void Log(String cont) {
         instance.getServer().getConsoleSender().sendMessage(Chat.AltFormat(prefix + cont));
     }
+
+    public static AtlasCore getInstance() {
+        return instance;
+    }
 }

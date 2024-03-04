@@ -1,44 +1,47 @@
 package net.atlaspvp.atlascore.Features.PlayerStat;
 
+import net.atlaspvp.atlascore.AtlasCore;
+import org.bukkit.NamespacedKey;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class Stat {
 
-    private String id;
+    private final String key;
 
-    private double maxValue;
+    private final double maxValue;
 
-    private double minValue;
+    private final double minValue;
 
-    private double baseValue;
+    private final double baseValue;
 
 
     //modifiers
-    private HashSet<Double> flatModifiers = new HashSet<>();
-    private HashMap<Long, Double> tempFlatModifiers = new HashMap<>();
+    private final HashSet<Double> flatModifiers = new HashSet<>();
+    private final HashMap<Long, Double> tempFlatModifiers = new HashMap<>();
 
-    private HashSet<Double> multiplicatorModifiers = new HashSet<>();
+    private final HashSet<Double> multiplicatorModifiers = new HashSet<>();
 
-    private HashMap<Long, Double> tempMultiplicatorModifiers = new HashMap<>();
+    private final HashMap<Long, Double> tempMultiplicatorModifiers = new HashMap<>();
 
 
     public Stat(String id, double maxValue, double minValue, double baseValue) {
-        this.id = id;
+        this.key = id;
         this.maxValue = maxValue;
         this.minValue = minValue;
         this.baseValue = baseValue;
     }
 
     public Stat(String id, double maxValue, double minValue) {
-        this.id = id;
+        this.key = id;
         this.maxValue = maxValue;
         this.minValue = minValue;
         this.baseValue = 0;
     }
 
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     public double getMaxValue() {
