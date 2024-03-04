@@ -5,17 +5,20 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import revxrsal.commands.annotation.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 
 public class Chat {
     // Minimessage Related vvv
 
     private static final Pattern regexPlaceholderAPIPatern = Pattern.compile("%((?:(?!%%).)*)%");
 
-    public static Component setPlaceholders(String input, Player player) {
+    public static Component format(String input, Player player) {
         //minimessage input, component output passing placeholders through placeholderAPI
 
         while(true){
@@ -26,13 +29,29 @@ public class Chat {
                 break;
             }
         }
+        return miniMessage().deserialize(input);
+    }
+    public static Component format(String input) {
+        return format(input, null);
 
-        return MiniMessage.miniMessage().deserialize(input);
+    }
+
+    public static List<Component> format(List<String> inputList, Player player) {
+        List<Component> formattedList = new ArrayList<>();
+
+        for(String str : inputList){
+            formattedList.add(format(str, player));
+        }
+        return formattedList;
+    }
+
+    public static List<Component> format(List<String> inputList) {
+        return format(inputList, null);
     }
 
 
-
     // Used for basic quick chat color format vvv
+
 
     public static List<String> formatLore(List<String> inputList) {
         List<String> formattedList = new ArrayList<>();
