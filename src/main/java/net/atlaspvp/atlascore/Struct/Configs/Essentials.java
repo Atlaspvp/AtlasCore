@@ -1,5 +1,8 @@
 package net.atlaspvp.atlascore.Struct.Configs;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -22,19 +25,26 @@ public class Essentials {
             plugin.saveResource("Essentials.yml", false);
         }
         config = YamlConfiguration.loadConfiguration(file);
+        ConfigValues.printcontents = getBoolean("print-contents");
     }
 
     public static void Reload() {
         config = YamlConfiguration.loadConfiguration(file);
     }
 
-    public static String getMessage(String message, Player player){
+    public static Component getMessage(String message, Player player){
         String a = config.getString("messages." + message);
+        Component b = MiniMessage.miniMessage().deserialize(a);
 
         if (player != null) {
-            return a.replace("{player}", player.getName());
+            Component c = b.replaceText(TextReplacementConfig.builder().match("<player>").replacement(player.getName()).build());
+            return c;
         }
-        return a;
+        return b;
+    }
+
+    public static boolean getBoolean(String a) {
+        return config.getBoolean("messages." + a);
     }
 
 

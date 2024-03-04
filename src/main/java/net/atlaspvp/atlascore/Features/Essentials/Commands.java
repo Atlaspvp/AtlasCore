@@ -2,6 +2,10 @@ package net.atlaspvp.atlascore.Features.Essentials;
 
 import net.atlaspvp.atlascore.Struct.Configs.Essentials;
 import net.atlaspvp.atlascore.Utils.Chat;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -52,17 +56,18 @@ public class Commands {
         final ItemStack i = player.getInventory().getItemInMainHand();
         if (i.getType() != Material.AIR) {
             if (Fixable(i)) {
-                String messageA = Essentials.getMessage("fix-success", null);
-                String messageB = messageA.replace("{contents}", i.displayName().toString());
+                Component messageA = Essentials.getMessage("fix-success", null);
+                Component messageB = messageA.replaceText(TextReplacementConfig.builder().match("<contents>").replacement(i.displayName()).build());
 
-                player.sendMessage(Chat.AltFormat(messageB));
+
+                player.sendMessage(messageB);
 
                 i.setDurability((short) 0);
             } else {
-                String messageA = Essentials.getMessage("fix-failed", null);
-                String messageB = messageA.replace("{contents}", i.displayName().toString());
+                Component messageA = Essentials.getMessage("fix-failed", null);
+                Component messageB = messageA.replaceText(TextReplacementConfig.builder().match("<contents>").replacement(i.displayName()).build());
 
-                player.sendMessage(Chat.AltFormat(messageB));
+                player.sendMessage(messageB);
             }
         }
     }
@@ -72,31 +77,50 @@ public class Commands {
     public void Fixall(final Player player) {
         List<ItemStack> toFix = toFix(player.getInventory());
         if (!toFix.isEmpty()) {
-            String messageA = Essentials.getMessage("fix-success", null);
-            if (messageA.contains("{contents}")) {
-                String message = messageA.replace("{contents}", "");
-                player.sendMessage(Chat.AltFormat(message));
-            }
+            Component messageA = Essentials.getMessage("fix-success", null);
+            Component messageB = messageA.replaceText(TextReplacementConfig.builder().match("<contents>").replacement("").build());
+            Component cp = Essentials.getMessage("contents-prefix", null);
+            player.sendMessage(messageB);
             for (ItemStack i : toFix) {
                 i.setDurability((short) 0);
-                if (messageA.contains("{contents}")) {
-                    String cp = Essentials.getMessage("contents-prefix", null);
-                    player.sendMessage(cp + i.displayName());
+                if (Essentials.getBoolean("print-contents")) {
+                    player.sendMessage(cp.append(i.displayName()));
+                } else {
+                    System.out.println(Essentials.getBoolean("print-contents"));
                 }
             }
         } else {
-            player.sendMessage(Chat.AltFormat(Essentials.getMessage("fixall-failed", null)));
+            player.sendMessage(Essentials.getMessage("fixall-failed", null));
         }
     }
 
+    @Command("speed")
+    @CommandPermission("andromeda.speed")
+    public void onSpeed(final Player player, final float f) {
+        if (player.isFlying()) {
+            final float speed = player.getFlySpeed();
+
+            player.setFlySpeed(f);
+            player.sendMessage(Chat.format("<green><b>(!)</b> your fly speed has been changed from " + speed + " to " + f + "."));
+        } else {
+            final float speed = player.getWalkSpeed();
+
+            player.setWalkSpeed(f);
+            player.sendMessage(Chat.format("<green><b>(!)</b> ʏᴏᴜʀ ᴡᴀʟᴋ sᴘᴇᴇᴅ ʜᴀs ʙᴇᴇɴ ᴄʜᴀɴɢᴇᴅ ғʀᴏᴍ " + speed + " ᴛᴏ " + f + "."));
+        }
+    }
+
+
+
+
     private void setGamemode(Player player, GameMode gameMode) {
+        Component messageA = Essentials.getMessage("gamemode", player);
+        Component messageB = messageA.replaceText(TextReplacementConfig.builder().match("<state>").replacement(player.getGameMode().name()).build());
+        Component messageC = messageB.replaceText(TextReplacementConfig.builder().match("<state2>").replacement(gameMode.name()).build());
+
         player.setGameMode(gameMode);
 
-        String messageA = Essentials.getMessage("gamemode", player);
-        String messageB = messageA.replace("{state}", gameMode.name());
-        String messageC = messageB.replace("{state2}", player.getGameMode().name());
-
-        player.sendMessage(Chat.AltFormat(messageC));
+        player.sendMessage(messageC);
     }
 
     private boolean Fixable(final ItemStack item) {
@@ -106,8 +130,10 @@ public class Commands {
     public List<ItemStack> toFix(Inventory inv) {
         ArrayList<ItemStack> items = new ArrayList<>();
         for (ItemStack i : inv) {
-            if (Fixable(i)) {
-                items.add(i);
+            if (i != null) {
+                if (Fixable(i)) {
+                    items.add(i);
+                }
             }
         }
         return items;

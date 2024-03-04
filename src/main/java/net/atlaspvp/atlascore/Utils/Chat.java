@@ -3,6 +3,7 @@ package net.atlaspvp.atlascore.Utils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import revxrsal.commands.annotation.Optional;
@@ -47,6 +48,30 @@ public class Chat {
 
     public static List<Component> format(List<String> inputList) {
         return format(inputList, null);
+    }
+
+    // Center Chat vvv
+
+    public static Component center(final String message) {
+        final StringBuilder padding = new StringBuilder();
+
+        final int length = PlainTextComponentSerializer.plainText().serialize(format(message)).length();
+        for (int i = 0; i < ((55 - length) / 2); i++) {
+            padding.append(" ");
+        }
+
+        return format(padding + message + padding);
+    }
+
+    public static Component center(final Component message) {
+        final StringBuilder padding = new StringBuilder();
+
+        final int length = PlainTextComponentSerializer.plainText().serialize(message).length();
+        for (int i = 0; i < ((55 - length) / 2); i++) {
+            padding.append(" ");
+        }
+
+        return format(padding.toString()).append(message).append(format(padding.toString()));
     }
 
 

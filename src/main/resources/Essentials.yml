@@ -1,8 +1,9 @@
 messages:
-  gamemode: "&a{player} Gamemode is now {state} for {state2}."
-  fix-success: "&aYou have successfully fixed: {contents}."
-  fix-failed: "&cYou cannot fix: {contents}."
-  fixall-failed: "&cYou have nothing to fix."
+  gamemode: "<green><player> Gamemode is now <state> for <state2>.</green>"
+  fix-success: "<green>You have successfully fixed: </green><contents>"
+  fix-failed: "<red>You cannot fix: </red><contents>."
+  fixall-failed: "<red>You have nothing to fix."
+  print-contents: True
   contents-prefix: "- "
 
 
