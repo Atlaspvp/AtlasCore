@@ -1,5 +1,6 @@
 package net.atlaspvp.atlascore.Struct.Configs;
 
+import net.atlaspvp.atlascore.Utils.Chat;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -33,14 +34,7 @@ public class Essentials {
     }
 
     public static Component getMessage(String message, Player player){
-        String a = config.getString("messages." + message);
-        Component b = MiniMessage.miniMessage().deserialize(a);
-
-        if (player != null) {
-            Component c = b.replaceText(TextReplacementConfig.builder().match("<player>").replacement(player.getName()).build());
-            return c;
-        }
-        return b;
+        return Chat.format(message, player);
     }
 
     public static boolean getBoolean(String a) {

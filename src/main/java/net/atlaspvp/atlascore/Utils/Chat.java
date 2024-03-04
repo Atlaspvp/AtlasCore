@@ -78,17 +78,6 @@ public class Chat {
     // Used for basic quick chat color format vvv
 
 
-    public static List<String> formatLore(List<String> inputList) {
-        List<String> formattedList = new ArrayList<>();
-
-        for (String str : inputList) {
-            String formattedString = Chat.AltFormat(str);
-            formattedList.add(formattedString);
-        }
-
-        return formattedList;
-    }
-
     public static String AltFormat(final String textToTranslate) {
         final char altColorChar = '&';
         final StringBuilder b = new StringBuilder();
