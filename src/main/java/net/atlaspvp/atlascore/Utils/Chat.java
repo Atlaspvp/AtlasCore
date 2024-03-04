@@ -1,12 +1,34 @@
 package net.atlaspvp.atlascore.Utils;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Chat {
     // Minimessage Related vvv
+
+    private static final Pattern regexPlaceholderAPIPatern = Pattern.compile("%((?:(?!%%).)*)%");
+
+    public static Component setPlaceholders(String input, Player player) {
+        //minimessage input, component output passing placeholders through placeholderAPI
+
+        while(true){
+            String matched = regexPlaceholderAPIPatern.matcher(input).group(1);
+            if(matched != null){
+                input = input.replace( matched, PlaceholderAPI.setPlaceholders(player, matched));
+            }else{
+                break;
+            }
+        }
+
+        return MiniMessage.miniMessage().deserialize(input);
+    }
 
 
 
