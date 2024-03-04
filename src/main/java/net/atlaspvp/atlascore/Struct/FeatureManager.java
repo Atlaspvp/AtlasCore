@@ -1,22 +1,38 @@
 package net.atlaspvp.atlascore.Struct;
 
 import com.google.common.collect.Maps;
+import net.atlaspvp.atlascore.AtlasCore;
+import net.atlaspvp.atlascore.Features.Essentials.Essentials;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
 
 public class FeatureManager {
-    private final Map<String, Feature> Features = Maps.newHashMap();
+    private static final Map<String, Feature> Features = Maps.newHashMap();
 
-    public static void registerFeature(Plugin plugin) {
-
+    public static void registerFeatures(Plugin plugin) {
+        Features.put("Essentials", new Essentials());
+        loadFeature(plugin);
     }
 
     public static void loadFeature(Plugin plugin) {
+        for (Map.Entry<String, Feature> entry : Features.entrySet()) {
+            String name = entry.getKey();
+            Feature feature = entry.getValue();
 
-    }
+            AtlasCore.Log("&7Attempting to Load " + name);
 
-    public boolean isLoaded(Feature feature){
-        return Features.containsKey(feature.name);
+            try {
+                feature.onEnable(plugin);
+                if (feature.getState()) {
+                    AtlasCore.Log("&aSuccessfully loaded " + name);
+                } else {
+                    AtlasCore.Log("&c" + name + " failed to load: State not set properly");
+                }
+            } catch (Exception e) {
+                AtlasCore.Log("&cAn error occurred loading " + name + ": " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
     }
 }
