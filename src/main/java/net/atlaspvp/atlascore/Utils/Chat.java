@@ -10,6 +10,7 @@ import revxrsal.commands.annotation.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
@@ -17,17 +18,24 @@ import static net.kyori.adventure.text.minimessage.MiniMessage.miniMessage;
 public class Chat {
     // Minimessage Related vvv
 
-    private static final Pattern regexPlaceholderAPIPatern = Pattern.compile("%((?:(?!%%).)*)%");
+    private static final Pattern regexPlaceholderAPIPatern = Pattern.compile("\\[((?:(?!\\[|\\]).)*)\\]");
 
     public static Component format(String input, Player player) {
         //minimessage input, component output passing placeholders through placeholderAPI
 
         while(true){
-            String matched = regexPlaceholderAPIPatern.matcher(input).group(1);
-            if(matched != null){
-                input = input.replace( matched, PlaceholderAPI.setPlaceholders(player, matched));
-            }else{
+            Matcher matched = regexPlaceholderAPIPatern.matcher(input);
+            if(!matched.find()){
                 break;
+            }
+            String papi = matched.group(1);
+            String parsed =  PlaceholderAPI.setPlaceholders(player,"%" + papi + "%");
+            if(!parsed.equals("%" + papi + "%")){
+                //a placeholder
+                input = input.replace("[" + papi + "]", parsed);
+            }else{
+                //no placeholder
+                input = input.replace("[" + papi + "]", papi);
             }
         }
         return miniMessage().deserialize(input);
