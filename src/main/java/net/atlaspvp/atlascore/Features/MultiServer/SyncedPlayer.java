@@ -1,16 +1,23 @@
 package net.atlaspvp.atlascore.Features.MultiServer;
 
 import net.atlaspvp.atlascore.Features.MultiServer.CustomEvents.SyncedPlayerUpdate;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.io.Serializable;
+import java.lang.invoke.SerializedLambda;
+import java.util.*;
 
 
 public class SyncedPlayer {
 
 
     private final UUID playerUUID;
-    private HashMap<String, SerializablePlayerData> data = new HashMap<>();
+    private HashMap<String, Serializable> customData = new HashMap<>();
+
+    private ItemStack[] inventory = new ItemStack[36];
 
     public SyncedPlayer(UUID playerUUID) {
         this.playerUUID = playerUUID;
@@ -41,13 +48,30 @@ public class SyncedPlayer {
 
 
 
-
     }
 
     public void getData(){
         //get the data hashmap from rabbitmq
 
     }
+
+
+    private void getInventory(){
+        //get the players inventory and put it into the inventory array
+        PlayerInventory bukkitInventory = Bukkit.getPlayer(playerUUID).getInventory();
+
+        bukkitInventory.getContents();
+
+
+    }
+
+    private void setInventory(){
+        //set the players inventory from the inventory array
+    }
+
+
+
+
 
 
 }

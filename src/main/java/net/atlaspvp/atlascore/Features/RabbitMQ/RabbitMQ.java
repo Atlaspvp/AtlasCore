@@ -16,12 +16,13 @@ public class RabbitMQ extends Feature {
     private static Connection connection;
     private static Channel channel;
     private static ConnectionFactory factory;
-    public static int RabbitPort = 0;
-    public static String RabbitIP = "";
+    public static int RabbitPort = 27003;
+    public static String RabbitIP = "172.18.0.1";
 
     public void onEnable(Plugin plugin) {
         state = true;
         initConnection();
+        Data.activateListener();
     }
 
     public void onDisable() {
@@ -39,7 +40,7 @@ public class RabbitMQ extends Feature {
         factory.setPort(RabbitPort);
         factory.setHost(RabbitIP);
 
-        try (Connection connect = factory.newConnection()){
+        /*try (Connection connect = factory.newConnection()){
             connection = connect;
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
@@ -53,7 +54,7 @@ public class RabbitMQ extends Feature {
         } catch (IOException | TimeoutException e) {
             e.printStackTrace();
             return;
-        }
+        }*/
 
     }
 
@@ -67,4 +68,7 @@ public class RabbitMQ extends Feature {
     }
 
 
+    public static ConnectionFactory getFactory() {
+        return factory;
+    }
 }
