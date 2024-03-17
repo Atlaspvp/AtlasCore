@@ -1,5 +1,6 @@
 package net.atlaspvp.atlascore.Features.Essentials;
 
+import net.atlaspvp.atlascore.Features.RabbitMQ.Data;
 import net.atlaspvp.atlascore.Struct.Configs.Essentials;
 import net.atlaspvp.atlascore.Utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -19,6 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Commands {
+
+    @Command({"senddata"})
+    public void test(Player player) {
+        Data.sendData("This is a test", "factiontest");
+    }
 
     @Command({"gmc", "gamemode creative"})
     @CommandPermission("atlascore.gamemode")

@@ -3,6 +3,7 @@ package net.atlaspvp.atlascore.Struct;
 import com.google.common.collect.Maps;
 import net.atlaspvp.atlascore.AtlasCore;
 import net.atlaspvp.atlascore.Features.Essentials.Essentials;
+import net.atlaspvp.atlascore.Features.RabbitMQ.RabbitMQ;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Map;
@@ -12,6 +13,7 @@ public class FeatureManager {
 
     public static void registerFeatures(Plugin plugin) {
         Features.put("Essentials", new Essentials());
+        Features.put("RabbitMQ", new RabbitMQ());
         loadFeature(plugin);
     }
 

@@ -2,15 +2,12 @@ package net.atlaspvp.atlascore.Struct.Configs;
 
 import net.atlaspvp.atlascore.Utils.Chat;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextReplacementConfig;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
-import java.util.Optional;
 
 public class Essentials {
 
@@ -26,7 +23,6 @@ public class Essentials {
             plugin.saveResource("Essentials.yml", false);
         }
         config = YamlConfiguration.loadConfiguration(file);
-        ConfigValues.printcontents = getBoolean("print-contents");
     }
 
     public static void Reload() {
