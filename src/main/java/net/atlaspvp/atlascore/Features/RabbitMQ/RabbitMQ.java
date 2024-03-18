@@ -13,16 +13,36 @@ import java.util.concurrent.TimeoutException;
 
 public class RabbitMQ extends Feature {
     private boolean state;
-    private static Connection connection;
-    private static Channel channel;
-    private static ConnectionFactory factory;
+    public static ConnectionFactory factory;
+    public static Connection connection;
+    public static Channel channel;
+
     public static int RabbitPort = 27003;
     public static String RabbitIP = "172.18.0.1";
 
+    public static String QUEUE_NAME = "atlascore";
+    public static String EXCHANGE = "exchange";
+
     public void onEnable(Plugin plugin) {
-        state = true;
-        initConnection();
-        Data.activateListener();
+        //create factory
+        factory = new ConnectionFactory();
+        factory.setHost(RabbitIP);
+        factory.setPort(RabbitPort);
+        factory.setUsername("adfeahajulort");
+        factory.setPassword("oyqiwebyif");
+
+
+        //start the reciever
+        try {
+            Recieve.receive();
+            Send.send();
+            state = true; // Set state to true after successful initialization
+        } catch (Exception e) {
+            state = false; // Set state to false if initialization fails
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     public void onDisable() {
@@ -33,42 +53,5 @@ public class RabbitMQ extends Feature {
         return state;
     }
 
-    public static void initConnection() {
-        factory = new ConnectionFactory();
-        factory.setUsername("adfeahajulort");
-        factory.setPassword("oyqiwebyif");
-        factory.setPort(RabbitPort);
-        factory.setHost(RabbitIP);
 
-        /*try (Connection connect = factory.newConnection()){
-            connection = connect;
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        try (Channel chan = connection.createChannel()) {
-            chan.exchangeDeclare("faction", "topic");
-            channel = chan;
-
-        } catch (IOException | TimeoutException e) {
-            e.printStackTrace();
-            return;
-        }*/
-
-    }
-
-
-    public static Connection getConnection() {
-        return connection;
-    }
-
-    public static Channel getChannel() {
-        return channel;
-    }
-
-
-    public static ConnectionFactory getFactory() {
-        return factory;
-    }
 }

@@ -1,12 +1,9 @@
 package net.atlaspvp.atlascore.Features.Essentials;
 
-import net.atlaspvp.atlascore.Features.RabbitMQ.Data;
 import net.atlaspvp.atlascore.Struct.Configs.Essentials;
 import net.atlaspvp.atlascore.Utils.Chat;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.TextReplacementConfig;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentTarget;
@@ -21,10 +18,10 @@ import java.util.List;
 
 public class Commands {
 
-    @Command({"senddata"})
+    /*@Command({"senddata"})
     public void test(Player player) {
         Data.sendData("This is a test", "factiontest");
-    }
+    }*/
 
     @Command({"gmc", "gamemode creative"})
     @CommandPermission("atlascore.gamemode")
