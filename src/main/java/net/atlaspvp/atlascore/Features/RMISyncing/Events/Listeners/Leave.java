@@ -23,8 +23,7 @@ public class Leave implements Listener {
 
         //tell db player is leaving
 
-        //drop player from syncing queue, we already synced
-        syncingRunnable.dropPlayer(event.getPlayer());
+
 
     }
 }
