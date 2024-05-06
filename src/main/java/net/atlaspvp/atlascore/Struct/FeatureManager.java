@@ -3,21 +3,21 @@ package net.atlaspvp.atlascore.Struct;
 import com.google.common.collect.Maps;
 import net.atlaspvp.atlascore.AtlasCore;
 import net.atlaspvp.atlascore.Features.Essentials.Essentials;
-import net.atlaspvp.atlascore.Features.RabbitMQ.RabbitMQ;
-import org.bukkit.plugin.Plugin;
+import net.atlaspvp.atlascore.Features.PlayerVaults.PlayerVaults;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
 
 public class FeatureManager {
     private static final Map<String, Feature> Features = Maps.newHashMap();
 
-    public static void registerFeatures(Plugin plugin) {
+    public static void registerFeatures(JavaPlugin plugin) {
         Features.put("Essentials", new Essentials());
-        Features.put("RabbitMQ", new RabbitMQ());
+        Features.put("PlayerVaults", new PlayerVaults());
         loadFeature(plugin);
     }
 
-    public static void loadFeature(Plugin plugin) {
+    public static void loadFeature(JavaPlugin plugin) {
         for (Map.Entry<String, Feature> entry : Features.entrySet()) {
             String name = entry.getKey();
             Feature feature = entry.getValue();

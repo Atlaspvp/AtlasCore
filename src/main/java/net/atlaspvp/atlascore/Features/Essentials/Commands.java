@@ -1,5 +1,7 @@
 package net.atlaspvp.atlascore.Features.Essentials;
 
+import net.atlaspvp.atlascore.Features.PlayerVaults.GUI;
+import net.atlaspvp.atlascore.Features.PlayerVaults.PlayerVaults;
 import net.atlaspvp.atlascore.Struct.Configs.Essentials;
 import net.atlaspvp.atlascore.Utils.Chat;
 import net.kyori.adventure.text.Component;
@@ -15,6 +17,7 @@ import revxrsal.commands.bukkit.annotation.CommandPermission;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Commands {
 
@@ -113,8 +116,18 @@ public class Commands {
         }
     }
 
+    @Command({"pv", "playervaults", "playervault"})
+    public void onVault(final Player player, String vault) {
+        if (vault.toLowerCase(Locale.ROOT).equals("menu")) {
+            new GUI().openGUI(player);
 
+        } else if (vault.toLowerCase(Locale.ROOT).equals("search")){
+            PlayerVaults.searchTOC(player, vault);
 
+        } else {
+            PlayerVaults.open(player, Integer.parseInt(vault));
+        }
+    }
 
     private void setGamemode(Player player, GameMode gameMode) {
         Component messageA = Essentials.getMessage("gamemode", player);
